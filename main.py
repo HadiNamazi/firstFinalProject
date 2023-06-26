@@ -41,10 +41,10 @@ class Stocks:
                      'TSLA': ((last_tsla-first_tsla)/first_tsla)*100,
                      'GOOGL': ((last_googl-first_googl)/first_googl)*100,
                      'AAPL': ((last_aapl-first_aapl)/first_aapl)*100 }
-
+        # Sortign the dictionary in descending order // reverse = True
         chgp_dict = sorted(chgp_dict.items(), key=lambda item: item[1])
 
-        #printing the results in descending order
+        #printing the results
         i = 4
         while i >= 0:
             print(chgp_dict[i][0], chgp_dict[i][1], '%')
@@ -89,16 +89,16 @@ class Account:
     # A method that buys the given stock and reduces our asset by the value of the given stock
     def buy_stock(self, stock):
         df = pd.read_csv(r'./stock_market_data.csv')
-        
+        #Pandas query() acts as a data frame filter
         query = "Symbol == '" + stock + "'"
         selected_stock = df.query(query)
         price = selected_stock['Open'][selected_stock['Symbol'].axes[0][0]]
         if self.asset >= price:
             self.stocks.append(stock)
             self.asset -= price
-            print('The purchase of {} shares was successfully completed'.format(stock))
+            print('The purchase of {} shares was successfully completed.'.format(stock))
         else:
-            print('unfortunately you have not enough asset to buy this stock')
+            print('Unfortunately you do not have enough asset to buy this stock.')
 
     # A method that sells the given stock and adds the value of the given stock to our asset
     def sell_stock(self, stock):
@@ -109,9 +109,9 @@ class Account:
             price = selected_stock['Open'][selected_stock['Open'].size - 1 + selected_stock['Open'].axes[0][0]]
             self.asset += price
             self.stocks.remove(stock)
-            print('The sale of Amazon shares has been successfully completed')
+            print('The sale of {} shares has been successfully completed.'.format(stock))
         else:
-            print('unfortunately you have not this stock in your account')
+            print('Unfortunately you do not have this stock in your account')
 
     # A method that prints our stocks and the total value of them
     def show_stocks(self):
