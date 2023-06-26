@@ -108,4 +108,19 @@ class Account:
         tsla = df.query(tsla_q)
         googl = df.query(googl_q)
         aapl = df.query(aapl_q)
+        
+        price = 0
+        for i in range(0, len(self.stocks)):
+            if self.stocks[i] == 'AMZN':
+                price += amzn['Open'][amzn['Open'].size + amzn['Open'].axes[0][0] - 1]
+            elif self.stocks[i] == 'FB':
+                price += fb['Open'][fb['Open'].size + fb['Open'].axes[0][0] - 1]
+            elif self.stocks[i] == 'TSLA':
+                price += tsla['Open'][tsla['Open'].size + tsla['Open'].axes[0][0] - 1]
+            elif self.stocks[i] == 'GOOGL':
+                price += googl['Open'][googl['Open'].size + googl['Open'].axes[0][0] - 1]
+            elif self.stocks[i] == 'AAPL':
+                price += aapl['Open'][aapl['Open'].size + aapl['Open'].axes[0][0] - 1]
+
+        print('Your stocks:', self.stocks, '\n', 'Total value of your stocks:', '\t', price,'$')
 
