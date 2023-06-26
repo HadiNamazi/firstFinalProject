@@ -93,7 +93,7 @@ class Account:
         query = "Symbol == '" + stock + "'"
         selected_stock = df.query(query)
         # The latest price of the given stock
-        price = selected_stock['Open'][selected_stock['Symbol'].axes[0][0] + selected_stock['Symbol'].size  - 1]]
+        price = selected_stock['Open'][selected_stock['Symbol'].axes[0][0] + selected_stock['Symbol'].size  - 1]
         if self.asset >= price*n:
             for i in range(0, n):
                 self.stocks.append(stock)
