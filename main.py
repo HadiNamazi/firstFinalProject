@@ -61,3 +61,23 @@ class Stocks:
         fig = px.line(data_frame=selected_stock, x='Date', y='Open')
         fig.show()
 
+class Account:
+    firstname = ''
+    lastname = ''
+    mellicode = 0
+    birthday = ''
+    asset = 0
+    stocks = []
+
+def buy_stock(self, stock):
+        df = pd.read_csv(r'./stock_market_data.csv')
+        query = "Symbol == '" + stock + "'"
+        selected_stock = df.query(query)
+        price = selected_stock['Open'][selected_stock['Symbol'].axes[0][0]]
+        if self.asset >= price:
+            self.stocks.append(stock)
+            self.asset -= price
+            print('The purchase of {} shares was successfully completed'.format(stock))
+        else:
+            print('unfortunately you have not enough asset to buy this stock')
+
