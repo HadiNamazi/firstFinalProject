@@ -92,7 +92,7 @@ class Account:
         #Pandas query() acts as a data frame filter
         query = "Symbol == '" + stock + "'"
         selected_stock = df.query(query)
-        price = selected_stock['Open'][selected_stock['Symbol'].axes[0][0]]
+        price = selected_stock['Open'][selected_stock['Symbol'].axes[0][0] + selected_stock['Symbol'].size  - 1]]
         if self.asset >= price:
             self.stocks.append(stock)
             self.asset -= price
