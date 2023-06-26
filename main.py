@@ -69,7 +69,7 @@ class Account:
     asset = 0
     stocks = []
 
-def buy_stock(self, stock):
+    def buy_stock(self, stock):
         df = pd.read_csv(r'./stock_market_data.csv')
         query = "Symbol == '" + stock + "'"
         selected_stock = df.query(query)
@@ -80,4 +80,32 @@ def buy_stock(self, stock):
             print('The purchase of {} shares was successfully completed'.format(stock))
         else:
             print('unfortunately you have not enough asset to buy this stock')
+
+
+    def sell_stock(self, stock):
+        if stock in self.stocks:
+            df = pd.read_csv(r'./stock_market_data.csv')
+            query = "Symbol == '" + stock + "'"
+            selected_stock = df.query(query)
+            price = selected_stock['Open'][selected_stock['Open'].size - 1 + selected_stock['Open'].axes[0][0]]
+            self.asset += price
+            self.stocks.remove(stock)
+            print('The sale of Amazon shares has been successfully completed')
+        else:
+            print('unfortunately you have not this stock in your account')
+
+
+    def show_stocks(self):
+        df = pd.read_csv(r'./stock_market_data.csv')
+        # amazon query
+        amzn_q = "Symbol == 'AMZN'"
+        fb_q = "Symbol == 'FB'"
+        tsla_q = "Symbol == 'TSLA'"
+        googl_q = "Symbol == 'GOOGL'"
+        aapl_q = "Symbol == 'AAPL'"
+        amzn = df.query(amzn_q)
+        fb = df.query(fb_q)
+        tsla = df.query(tsla_q)
+        googl = df.query(googl_q)
+        aapl = df.query(aapl_q)
 
