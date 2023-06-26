@@ -89,9 +89,10 @@ class Account:
     # A method that buys the given stock and reduces our asset by the value of the given stock
     def buy_stock(self, stock):
         df = pd.read_csv(r'./stock_market_data.csv')
-        #Pandas query() acts as a data frame filter
+        # Pandas query() acts as a data frame filter
         query = "Symbol == '" + stock + "'"
         selected_stock = df.query(query)
+        # The latest price of the given stock
         price = selected_stock['Open'][selected_stock['Symbol'].axes[0][0] + selected_stock['Symbol'].size  - 1]]
         if self.asset >= price:
             self.stocks.append(stock)
@@ -106,6 +107,7 @@ class Account:
             df = pd.read_csv(r'./stock_market_data.csv')
             query = "Symbol == '" + stock + "'"
             selected_stock = df.query(query)
+            # The latest price of the given stock
             price = selected_stock['Open'][selected_stock['Open'].size - 1 + selected_stock['Open'].axes[0][0]]
             self.asset += price
             self.stocks.remove(stock)
