@@ -87,30 +87,32 @@ class Account:
     stocks = []
 
     # A method that buys the given stock and reduces our asset by the value of the given stock
-    def buy_stock(self, stock):
+    def buy_stock(self, stock, n):
         df = pd.read_csv(r'./stock_market_data.csv')
         # Pandas query() acts as a data frame filter
         query = "Symbol == '" + stock + "'"
         selected_stock = df.query(query)
         # The latest price of the given stock
         price = selected_stock['Open'][selected_stock['Symbol'].axes[0][0] + selected_stock['Symbol'].size  - 1]]
-        if self.asset >= price:
-            self.stocks.append(stock)
-            self.asset -= price
+        if self.asset >= price*n:
+            for i in range(0, n):
+                self.stocks.append(stock)
+            self.asset -= price*n
             print('The purchase of {} shares was successfully completed.'.format(stock))
         else:
             print('Unfortunately you do not have enough asset to buy this stock.')
 
     # A method that sells the given stock and adds the value of the given stock to our asset
-    def sell_stock(self, stock):
+    def sell_stock(self, stock, n):
         if stock in self.stocks:
             df = pd.read_csv(r'./stock_market_data.csv')
             query = "Symbol == '" + stock + "'"
             selected_stock = df.query(query)
             # The latest price of the given stock
             price = selected_stock['Open'][selected_stock['Open'].size - 1 + selected_stock['Open'].axes[0][0]]
-            self.asset += price
-            self.stocks.remove(stock)
+            self.asset += price*n
+            for i in range(0, n):
+                self.stocks.remove(stock)
             print('The sale of {} shares has been successfully completed.'.format(stock))
         else:
             print('Unfortunately you do not have this stock in your account')
