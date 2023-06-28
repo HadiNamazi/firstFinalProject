@@ -45,9 +45,10 @@ class Stocks:
         chgp_dict = sorted(chgp_dict.items(), key=lambda item: item[1])
 
         #printing the results
+        print(f"{'Stock':<11}{'Change percentage':>16}")
         i = 4
         while i >= 0:
-            print(chgp_dict[i][0], chgp_dict[i][1], '%')
+            print(f"{chgp_dict[i][0]:<10} {chgp_dict[i][1]:>13} {'%'}")
             i -= 1
 
     # A method that shows the linear regression chart of the given stock
@@ -104,7 +105,8 @@ class Account:
 
     # A method that sells the given stock and adds the value of the given stock to our asset
     def sell_stock(self, stock, n):
-        if stock in self.stocks:
+        well = Counter(self.stocks)
+        if stock in self.stocks and well[stock]>= n:
             df = pd.read_csv(r'./stock_market_data.csv')
             query = "Symbol == '" + stock + "'"
             selected_stock = df.query(query)
@@ -114,8 +116,10 @@ class Account:
             for i in range(0, n):
                 self.stocks.remove(stock)
             print('The sale of {} shares has been successfully completed.'.format(stock))
+        elif stock in self.stocks and well[stock] <= n:
+            print('Unfortunately you do not have this many of this stock in your account')
         else:
-            print('Unfortunately you do not have this stock in your account')
+            print('Unfortunately you do not have this stock in your account')account')
 
     # A method that prints our stocks and the total value of them
     def show_stocks(self):
