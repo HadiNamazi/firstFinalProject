@@ -1,3 +1,4 @@
+from collections import Counter
 from datetime import datetime
 import pandas as pd
 import plotly.express as px
@@ -61,8 +62,8 @@ class Stocks:
             #time_data is the time present in string format
             #format_data is the data present in datetime format which is converted from time_data using this function.
             selected_stock['Date'][i] = datetime.strptime(str(time_data= selected_stock['Date'][i]), format_data= '%Y-%m-%d')
-        # Determinig the x and y of the chart // ols :linear 
-        #Array-like and dict are transformed internally to a pandas DataFrame. 
+        # Determinig the x and y of the chart // ols :linear
+        #Array-like and dict are transformed internally to a pandas DataFrame.
         #Optional: if missing, a DataFrame gets constructed under the hood using the other arguments.
         fig = px.scatter(data_frame= selected_stock, x='Date', y='Open', trendline="ols", trendline_color_override='red')
         # linkes to a page in which the chart is depicted
@@ -73,7 +74,7 @@ class Stocks:
         df = pd.read_csv(r'./stock_market_data.csv')
         query = "Symbol == '" + stock + "'"
         selected_stock = df.query(query)
-        #Array-like and dict are transformed internally to a pandas DataFrame. 
+        #Array-like and dict are transformed internally to a pandas DataFrame.
         #Optional: if missing, a DataFrame gets constructed under the hood using the other arguments.
         fig = px.line(data_frame= selected_stock, x='Date', y='Open')
         fig.show()
@@ -106,7 +107,7 @@ class Account:
     # A method that sells the given stock and adds the value of the given stock to our asset
     def sell_stock(self, stock, n):
         well = Counter(self.stocks)
-        if stock in self.stocks and well[stock]>= n:
+        if stock in self.stocks and well[stock] >= n:
             df = pd.read_csv(r'./stock_market_data.csv')
             query = "Symbol == '" + stock + "'"
             selected_stock = df.query(query)
@@ -119,7 +120,7 @@ class Account:
         elif stock in self.stocks and well[stock] <= n:
             print('Unfortunately you do not have this many of this stock in your account')
         else:
-            print('Unfortunately you do not have this stock in your account')account')
+            print('Unfortunately you do not have this stock in your account')
 
     # A method that prints our stocks and the total value of them
     def show_stocks(self):
