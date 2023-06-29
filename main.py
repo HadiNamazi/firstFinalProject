@@ -85,17 +85,19 @@ class Account:
     lastname = ''
     mellicode = 0
     birthday = ''
-    asset = 0
+    asset = 1000
     stocks = []
 
     # A method that buys the given stock and reduces our asset by the value of the given stock
-    def buy_stock(self, stock, n):
+    def buy_stock(self, stock, n, date):
         df = pd.read_csv(r'./stock_market_data.csv')
         # Pandas query() acts as a data frame filter
-        query = "Symbol == '" + stock + "'"
-        selected_stock = df.query(query)
+        query1 = "Symbol == '" + stock + "'"
+        query2 = "Date == '" + date + "'"
+        selected_stock1 = df.query(query1)
+        selected_stock2 = selected_stock1.query(query2)
         # The latest price of the given stock
-        price = selected_stock['Open'][selected_stock['Symbol'].axes[0][0] + selected_stock['Symbol'].size  - 1]
+        price = selected_stock2['Open'][selected_stock2['Open'].axes[0][0]]
         if self.asset >= price*n:
             for i in range(0, n):
                 self.stocks.append(stock)
@@ -105,14 +107,16 @@ class Account:
             print('Unfortunately you do not have enough asset to buy this stock.')
 
     # A method that sells the given stock and adds the value of the given stock to our asset
-    def sell_stock(self, stock, n):
+    def sell_stock(self, stock, n, date):
         well = Counter(self.stocks)
         if stock in self.stocks and well[stock] >= n:
             df = pd.read_csv(r'./stock_market_data.csv')
-            query = "Symbol == '" + stock + "'"
-            selected_stock = df.query(query)
+            query1 = "Symbol == '" + stock + "'"
+            query2 = "Date == '" + date + "'"
+            selected_stock1 = df.query(query1)
+            selected_stock2 = selected_stock1.query(query2)
             # The latest price of the given stock
-            price = selected_stock['Open'][selected_stock['Open'].size - 1 + selected_stock['Open'].axes[0][0]]
+            price = selected_stock2['Open'][selected_stock2['Open'].axes[0][0]]
             self.asset += price*n
             for i in range(0, n):
                 self.stocks.remove(stock)
@@ -152,4 +156,5 @@ class Account:
                 value += aapl['Open'][aapl['Open'].size + aapl['Open'].axes[0][0] - 1]
 
         print('Your stocks:', self.stocks, '\n', 'Total value of your stocks:', '\t', value,'$')
+
 
