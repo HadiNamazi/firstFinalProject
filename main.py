@@ -8,7 +8,6 @@ import plotly.express as px
 pd.options.mode.chained_assignment = None
 
 
-
 class Stocks:
     # A method with which we calculate the percentage of the change of stock values throughout the years
     def show_chgpercent(self):
@@ -24,7 +23,7 @@ class Stocks:
         googl = df.query(googl_q)
         aapl = df.query(aapl_q)
 
-        #Calculating the first and last price of each stock
+        # Calculating the first and last price of each stock
         first_amzn = amzn['Open'][amzn['Open'].axes[0][0]]
         last_amzn = amzn['Open'][amzn['Open'].size - 1 + amzn['Open'].axes[0][0]]
         first_fb = fb['Open'][fb['Open'].axes[0][0]]
@@ -36,16 +35,16 @@ class Stocks:
         first_aapl = aapl['Open'][aapl['Open'].axes[0][0]]
         last_aapl = aapl['Open'][aapl['Open'].size - 1 + aapl['Open'].axes[0][0]]
 
-        #Calculating the percentage
-        chgp_dict = {'AMZN': ((last_amzn-first_amzn)/first_amzn)*100,
-                     'FB': ((last_fb-first_fb)/first_fb)*100,
-                     'TSLA': ((last_tsla-first_tsla)/first_tsla)*100,
-                     'GOOGL': ((last_googl-first_googl)/first_googl)*100,
-                     'AAPL': ((last_aapl-first_aapl)/first_aapl)*100 }
+        # Calculating the percentage
+        chgp_dict = {'AMZN': ((last_amzn - first_amzn) / first_amzn) * 100,
+                     'FB': ((last_fb - first_fb) / first_fb) * 100,
+                     'TSLA': ((last_tsla - first_tsla) / first_tsla) * 100,
+                     'GOOGL': ((last_googl - first_googl) / first_googl) * 100,
+                     'AAPL': ((last_aapl - first_aapl) / first_aapl) * 100}
         # Sortign the dictionary in descending order // reverse = True
         chgp_dict = sorted(chgp_dict.items(), key=lambda item: item[1])
 
-        #printing the results
+        # printing the results
         print(f"{'Stock':<11}{'Change percentage':>16}")
         i = 4
         while i >= 0:
@@ -57,15 +56,16 @@ class Stocks:
         df = pd.read_csv(r'./stock_market_data.csv')
         query = "Symbol == '" + stock + "'"
         selected_stock = df.query(query)
-        #selected_stock['Volume'].axes[0][0] aka the 0th index of the given stock
-        for i in range(selected_stock['Volume'].axes[0][0], selected_stock['Volume'].size + selected_stock['Volume'].axes[0][0]):
-            #time_data is the time present in string format
-            #format_data is the data present in datetime format which is converted from time_data using this function.
-            selected_stock['Date'][i] = datetime.strptime(str(time_data= selected_stock['Date'][i]), format_data= '%Y-%m-%d')
-        # Determinig the x and y of the chart // ols :linear
-        #Array-like and dict are transformed internally to a pandas DataFrame.
-        #Optional: if missing, a DataFrame gets constructed under the hood using the other arguments.
-        fig = px.scatter(data_frame= selected_stock, x='Date', y='Open', trendline="ols", trendline_color_override='red')
+        # selected_stock['Volume'].axes[0][0] aka the 0th index of the given stock
+        for i in range(selected_stock['Volume'].axes[0][0],
+                       selected_stock['Volume'].size + selected_stock['Volume'].axes[0][0]):
+            # time_data is the time present in string format
+            # format_data is the data present in datetime format which is converted from time_data using this function.
+            selected_stock['Date'][i] = datetime.strptime(str(selected_stock['Date'][i]), '%Y-%m-%d')
+        # Determining the x and y of the chart // ols :linear
+        # Array-like and dict are transformed internally to a pandas DataFrame.
+        # Optional: if missing, a DataFrame gets constructed under the hood using the other arguments.
+        fig = px.scatter(data_frame=selected_stock, x='Date', y='Open', trendline="ols", trendline_color_override='red')
         # linkes to a page in which the chart is depicted
         fig.show()
 
@@ -74,12 +74,13 @@ class Stocks:
         df = pd.read_csv(r'./stock_market_data.csv')
         query = "Symbol == '" + stock + "'"
         selected_stock = df.query(query)
-        #Array-like and dict are transformed internally to a pandas DataFrame.
-        #Optional: if missing, a DataFrame gets constructed under the hood using the other arguments.
-        fig = px.line(data_frame= selected_stock, x='Date', y='Open')
+        # Array-like and dict are transformed internally to a pandas DataFrame.
+        # Optional: if missing, a DataFrame gets constructed under the hood using the other arguments.
+        fig = px.line(data_frame=selected_stock, x='Date', y='Open')
         fig.show()
 
-#The unlucky owner of the account
+
+# The unlucky owner of the account
 class Account:
     firstname = ''
     lastname = ''
@@ -87,6 +88,13 @@ class Account:
     birthday = ''
     asset = 1000
     stocks = []
+
+    def __init__(self, firstname, lastname, mellicode, birthday):
+        self.firstname = firstname
+        self.lastname = lastname
+        self.mellicode = mellicode
+        self.birthday = birthday
+
 
     # A method that buys the given stock and reduces our asset by the value of the given stock
     def buy_stock(self, stock, n, date):
@@ -98,10 +106,10 @@ class Account:
         selected_stock2 = selected_stock1.query(query2)
         # The latest price of the given stock
         price = selected_stock2['Open'][selected_stock2['Open'].axes[0][0]]
-        if self.asset >= price*n:
+        if self.asset >= price * n:
             for i in range(0, n):
                 self.stocks.append(stock)
-            self.asset -= price*n
+            self.asset -= price * n
             print('The purchase of {} shares was successfully completed.'.format(stock))
         else:
             print('Unfortunately you do not have enough asset to buy this stock.')
@@ -117,7 +125,7 @@ class Account:
             selected_stock2 = selected_stock1.query(query2)
             # The latest price of the given stock
             price = selected_stock2['Open'][selected_stock2['Open'].axes[0][0]]
-            self.asset += price*n
+            self.asset += price * n
             for i in range(0, n):
                 self.stocks.remove(stock)
             print('The sale of {} shares has been successfully completed.'.format(stock))
@@ -141,7 +149,7 @@ class Account:
         googl = df.query(googl_q)
         aapl = df.query(aapl_q)
 
-        #In this sections we calculate the total value of our stock(well....it turns out it's just virtual money)
+        # In this sections we calculate the total value of our stock(well....it turns out it's just virtual money)
         value = 0
         for i in range(0, len(self.stocks)):
             if self.stocks[i] == 'AMZN':
@@ -155,6 +163,11 @@ class Account:
             elif self.stocks[i] == 'AAPL':
                 value += aapl['Open'][aapl['Open'].size + aapl['Open'].axes[0][0] - 1]
 
-        print('Your stocks:', self.stocks, '\n', 'Total value of your stocks:', '\t', value,'$')
+        print('Your stocks:', self.stocks, '\n', 'Total value of your stocks:', '\t', value, '$')
 
 
+firstname = input('firstname: ')
+lastname = input('lastname: ')
+mellicode = int(input('mellicode: '))
+birthday = input('birthday: ')
+acc = Account(firstname, lastname, mellicode, birthday)
