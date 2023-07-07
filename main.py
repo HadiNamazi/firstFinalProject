@@ -42,7 +42,7 @@ class Stocks:
                      'GOOGL': ((last_googl - first_googl) / first_googl) * 100,
                      'AAPL': ((last_aapl - first_aapl) / first_aapl) * 100}
         # Sortign the dictionary in descending order // reverse = True
-        chgp_dict = sorted(chgp_dict.items(), reverse= True)
+        chgp_dict = sorted(chgp_dict.items(), key=lambda item: item[1])
 
         # printing the results
         print(f"{'Stock':<11}{'Change percentage':>16}")
